@@ -54,6 +54,7 @@ type platform =
 	| Cs
 	| Java
 	| Python
+	| Go
 
 (**
 	The capture policy tells which handling we make of captured locals
@@ -695,6 +696,21 @@ let get_config com =
 			pf_can_skip_non_nullable_argument = true;
 			pf_reserved_type_paths = [];
 		}
+	| Go ->
+		{
+			pf_static = false;
+			pf_sys = true;
+			pf_locals_scope = false;
+			pf_captured_scope = true;
+			pf_unique_locals = false;
+			pf_capture_policy = CPLoopVars;
+			pf_pad_nulls = false;
+			pf_add_final_return = false;
+			pf_overload = false;
+			pf_pattern_matching = false;
+			pf_can_skip_non_nullable_argument = true;
+			pf_reserved_type_paths = [];
+		}
 
 let memory_marker = [|Unix.time()|]
 
@@ -805,6 +821,7 @@ let platforms = [
 	Cs;
 	Java;
 	Python;
+	Go;
 ]
 
 let platform_name = function
@@ -817,6 +834,7 @@ let platform_name = function
 	| Cs -> "cs"
 	| Java -> "java"
 	| Python -> "python"
+	| Go -> "go"
 
 let flash_versions = List.map (fun v ->
 	let maj = int_of_float v in
